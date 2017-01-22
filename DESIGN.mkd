@@ -1,0 +1,59 @@
+DESIGN DOCUMENT
+
+
+Must not end up prioritizing shorter albums.  How?
+
+We must scan the length of each album, and store it as a property of the album.
+
+Then, when we pick, we actually decide that rather than '10 albums' we actually
+want '800 minutes' of audio.
+
+We can't really use a fancy algorithm to totally fill the minute allocation, 
+because that would mean that smaller albums would still end up showing up more
+often.
+
+So we just shuffle and pick until we reach the limit.
+
+I don't believe that we need to mark the ones that have been picked in any way.
+
+We also need to consider storage and performance.  Because we are reading
+tag data using subprocesses, we surely have to store the data.
+
+Do we have to worry about memory?  I wouldn't think so.
+
+That means that we can just use Storable and persist the hash to disk afterward.
+
+We would need a command line option to rescan the source directory.
+
+Actually, we can make it configurable through a list of shares.
+
+Hardcode this to ~/.picker/sources.lst and ~/.picker/sources.stat.
+
+The structure is a simple K/V store and should look like so
+
+
+So the algo goes
+
+Parse options
+If initialize or rescan:
+  Read sources
+  Populate hash
+Otherwise
+  Load hash from file
+
+Get hash keys
+Shuffle
+For each item in shuffled list:
+  Get hash value
+  Get minute count
+  Add to minute count
+
+Print new list to stdout
+
+Really we already know how to do the picking, so the init/rescan is the only
+hard part.  And we only care about the album tag of each file, and the length.
+We don't care about its location in the tree.  This is a potential problem.
+Because, when we have a list of 
+
+
+
