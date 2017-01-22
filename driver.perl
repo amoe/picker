@@ -53,7 +53,7 @@ sub main {
     }
 
     $log->debugf("Picking");
-    my $key_subset = Picker::pick_until_limit($scan, 80 * 60 * 1000);
+    my $key_subset = Picker::pick_until_limit($scan, 10 * 80 * 60 * 1000);
 
     for my $album (@$key_subset) {
         my $this_album = $scan->{$album};

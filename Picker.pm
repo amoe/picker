@@ -104,6 +104,8 @@ sub pick_until_limit {
           $count_so_far + $this_album_length;
 
         last if $prospective_new_count > $limit;
+
+        $count_so_far = $prospective_new_count;
         push @subset, $this_album;
     }
 
