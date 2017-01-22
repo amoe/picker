@@ -15,7 +15,7 @@ sub init_logging {
     # Send all logs to Log::Dispatch
     my $dispatch_logger = Log::Dispatch->new(
         outputs => [
-            [ 'Screen', min_level => 'debug', newline => 1 ],
+            [ 'Screen', min_level => 'info', newline => 1 ],
         ],
     );
     Log::Any::Adapter->set('Dispatch', dispatcher => $dispatch_logger);
@@ -66,8 +66,6 @@ sub main {
         }
     }
     $log->debugf("Picked");
-    
-
     $log->debugf("End.");
 }
 
