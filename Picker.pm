@@ -42,7 +42,23 @@ sub make_wanted_function {
     return sub {
         if (-f) {
             my $album_name =  get_audio_file_album($File::Find::name);
-            $target_hash_reference->{$album_name} = 42;
+            my $file_length = get_audio_file_length($File::Find::name);
+
+            if (!exists $target_hash_reference->{$album_name}) {
+                # That other other shit
+                $target_hash_reference->{$album_name} = {
+                    files => [],
+                    length => 0
+                };
+            }
+
+            my $album_datum = $target_hash_reference->{$album_name};
+
+            push(
+                @{$album_datum->{files}}, $File::Find::name
+            );
+
+            $album_datum->{length} += $file_length;
         }
     }
 }
@@ -52,8 +68,6 @@ sub scan_dir {
     my %output = ();
 
     find(make_wanted_function(\%output), $root);
-
-    say dump(\%output);
 
     return \%output;
 }
