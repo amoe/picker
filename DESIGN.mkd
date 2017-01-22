@@ -55,5 +55,22 @@ hard part.  And we only care about the album tag of each file, and the length.
 We don't care about its location in the tree.  This is a potential problem.
 Because, when we have a list of 
 
+Debian doesn't have MP3 support in its sox package.
+
+Mediainfo or ffprobe are the real options.  I think ffprobe would be best.
+
+Mediainfo seems nice and easy
+
+mediainfo --Inform='General;%Album%'  01-mystery_fish.mp3 
+
+=> 'The Impossible Kid'
+
+mediainfo --Inform='General;%Album%'  01-mystery_fish.mp3 
+
+=> 189022
+
+This will be the length in ms.  So ms is our base storage unit.
+
+Now we need to test that we can build a structure based on a file tree.
 
 
