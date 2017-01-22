@@ -88,4 +88,12 @@ sub load_scan {
     return retrieve("${config_path}/scanned.dat");
 }
 
+sub pick_until_limit {
+    my $albums = shift;
+    my $limit = shift;
+
+    my $keys = keys %$albums;
+    say $keys;
+}
+
 1;

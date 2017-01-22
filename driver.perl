@@ -39,18 +39,25 @@ GetOptions ("length=i" => \$length,    # numeric
 sub main {
     $log->debugf("Starting.");
 
+    my $scan;
+
     if ($initialize) {
         $log->debugf("Scanning...");
-        my $scan = Picker::scan_dir(@_);
+        $scan = Picker::scan_dir(@_);
         $log->debugf("Scan completed.");
 
         # Do stuff...
         Picker::save_scan($scan);
 
     } else {
-        my $existing_scan = Picker::load_scan()
+        $scan = Picker::load_scan()
             or die "Can't find existing scan, please initialize first";
     }
+
+    $log->debugf("Picking");
+    say dump(Picker::pick_until_limit($scan, 80 * 60 * 1000));
+    $log->debugf("Picked");
+    
 
     $log->debugf("End.");
 }
