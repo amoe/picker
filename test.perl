@@ -49,5 +49,4 @@ is_deeply(
     "scanning directory"
 );
 
-
 done_testing();
