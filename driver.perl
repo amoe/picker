@@ -1,10 +1,8 @@
 #! /usr/bin/perl
-use DBI;
 use strict;
 use warnings;
 use v5.20.2;
 use Data::Dump qw/dump/;
-use File::Slurper qw/read_text/;
 use Getopt::Long;
 use Log::Any qw($log);
 use Log::Dispatch;

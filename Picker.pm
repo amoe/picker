@@ -40,7 +40,7 @@ sub make_wanted_function {
     my $target_hash_reference = shift;
 
     return sub {
-        if (-f) {
+        if (-f && /\.(mp3|ogg)/) {
             my $album_name =  get_audio_file_album($File::Find::name);
             my $file_length = get_audio_file_length($File::Find::name);
 
