@@ -7,6 +7,7 @@ use String::ShellQuote qw/shell_quote/;
 use Data::Dump qw/dump/;
 use File::Find;
 use Storable qw(nstore retrieve);
+use List::Util qw(shuffle);
 
 sub get_audio_file_length {
     my $file = shift;
@@ -92,8 +93,22 @@ sub pick_until_limit {
     my $albums = shift;
     my $limit = shift;
 
-    my $keys = keys %$albums;
-    say $keys;
+    my @keys_shuffled = shuffle keys %$albums;
+    my @subset = ();
+    my $count_so_far = 0;
+    
+    while (my $this_album = shift @keys_shuffled) {
+        my $this_album_length = $albums->{$this_album}->{length};
+
+        my $prospective_new_count  =
+          $count_so_far + $this_album_length;
+
+        last if $prospective_new_count > $limit;
+        push @subset, $this_album;
+    }
+
+    return \@subset;
+        
 }
 
 1;

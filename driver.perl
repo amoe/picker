@@ -55,7 +55,16 @@ sub main {
     }
 
     $log->debugf("Picking");
-    say dump(Picker::pick_until_limit($scan, 80 * 60 * 1000));
+    my $key_subset = Picker::pick_until_limit($scan, 80 * 60 * 1000);
+
+    for my $album (@$key_subset) {
+        my $this_album = $scan->{$album};
+        my $files = $this_album->{files};
+
+        for my $file (@$files) {
+            say $file;
+        }
+    }
     $log->debugf("Picked");
     
 
