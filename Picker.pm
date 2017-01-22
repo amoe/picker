@@ -3,11 +3,10 @@ package Picker;
 use strict;
 use warnings;
 use v5.20.2;
-use autodie qw(:all);
 use String::ShellQuote qw/shell_quote/;
 use Data::Dump qw/dump/;
 use File::Find;
-
+use Storable qw(nstore retrieve);
 
 sub get_audio_file_length {
     my $file = shift;
@@ -64,12 +63,29 @@ sub make_wanted_function {
 }
 
 sub scan_dir {
-    my $root = shift;
+    my @roots = @_;
     my %output = ();
 
-    find(make_wanted_function(\%output), $root);
+    find(make_wanted_function(\%output), @roots);
 
     return \%output;
+}
+
+sub save_scan {
+    my $scan_data = shift;
+
+    say "About to store $scan_data";
+
+    my $config_path = $ENV{HOME} . "/.picker";
+    eval {
+        mkdir $config_path;
+    };
+    nstore $scan_data, "${config_path}/scanned.dat";
+}
+
+sub load_scan {
+    my $config_path = $ENV{HOME} . "/.picker";
+    return retrieve("${config_path}/scanned.dat");
 }
 
 1;
