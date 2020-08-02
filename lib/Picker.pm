@@ -43,8 +43,14 @@ sub make_wanted_function {
 
     return sub {
         if (-f && /\.(mp3|ogg)/) {
-            my $album_name =  get_audio_file_album($File::Find::name);
-            my $file_length = get_audio_file_length($File::Find::name);
+            my $path = $File::Find::name;
+
+            my $album_name =  get_audio_file_album($path);
+            my $file_length = get_audio_file_length($path);
+
+            if ($file_length eq '') {
+                say "Failure checking file length for $path";
+            }
 
             if (!exists $target_hash_reference->{$album_name}) {
                 # That other other shit
@@ -57,7 +63,7 @@ sub make_wanted_function {
             my $album_datum = $target_hash_reference->{$album_name};
 
             push(
-                @{$album_datum->{files}}, $File::Find::name
+                @{$album_datum->{files}}, $path
             );
 
             $album_datum->{length} += $file_length;
