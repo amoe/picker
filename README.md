@@ -2,4 +2,4 @@
 
 ## Install
 
-Run `make install`.
+Run `dzil install`.
