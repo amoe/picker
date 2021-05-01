@@ -40,6 +40,10 @@ sub main {
     my $scan;
 
     if ($initialize) {
+        if (!@_) {
+            die "No scan roots given; you must provide them on the command line";
+        }
+        
         $log->debugf("Scanning...");
         $scan = Picker::scan_dir(@_);
         $log->debugf("Scan completed.");
